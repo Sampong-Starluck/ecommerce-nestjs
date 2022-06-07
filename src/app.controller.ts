@@ -5,25 +5,27 @@ import { Controller, Get, Render } from '@nestjs/common';
 export class AppController {
   // constructor(private readonly appService: AppService) {}
 
-  @Get("/")
+  @Get('/')
   @Render('index')
   index() {
+    let viewData = [];
+    viewData['title'] = 'Home Page - Online Store';
     return {
-      title: "Home Page - Online Store"
+      // title: "Home Page - Online Store"
+      viewData: viewData,
     };
   }
 
-  @Get("/about")
+  @Get('/about')
   @Render('about')
   about() {
     let viewData = [];
-    viewData["decription"] = "This is an about page ....";
-    viewData["author"] = "Developed by: Sampong";
-    let data1 = 'About us - Online Store';
+    viewData['title'] = 'About us - Online Store';
+    viewData['subtitle'] = 'About Us';
+    viewData['description'] = 'This is an about page ....';
+    viewData['author'] = 'Developed by: Sampong';
     return {
-      title: data1,
-      subtitle: "About Us",
-      viewData: viewData
-    }
+      viewData: viewData,
+    };
   }
 }
