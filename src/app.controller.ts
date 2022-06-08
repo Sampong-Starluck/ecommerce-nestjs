@@ -8,7 +8,7 @@ export class AppController {
   @Get('/')
   @Render('index')
   index() {
-    let viewData = [];
+    const viewData = [];
     viewData['title'] = 'Home Page - Online Store';
     return {
       // title: "Home Page - Online Store"
@@ -19,7 +19,7 @@ export class AppController {
   @Get('/about')
   @Render('about')
   about() {
-    let viewData = [];
+    const viewData = [];
     viewData['title'] = 'About us - Online Store';
     viewData['subtitle'] = 'About Us';
     viewData['description'] = 'This is an about page ....';
