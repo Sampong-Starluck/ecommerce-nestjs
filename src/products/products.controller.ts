@@ -4,37 +4,6 @@ import { ProductsService } from './products.service';
 @Controller('/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-  // static products = [
-  //   {
-  //     id: '1',
-  //     name: 'TV',
-  //     description: 'Best tv',
-  //     image: 'game.png',
-  //     price: '1000',
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'iPhone',
-  //     description: 'Best iPhone',
-  //     image: 'safe.png',
-  //     price: '999',
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'Chromecast',
-  //     description: 'Best Chromecast',
-  //     image: 'submarine.png',
-  //     price: '30',
-  //   },
-  //   {
-  //     id: '4',
-  //     name: 'Glasses',
-  //     description: 'Best Glasses',
-  //     image: 'game.png',
-  //     price: '100',
-  //   },
-  // ];
-
   @Get('/')
   @Render('products/index')
   async index() {
@@ -56,8 +25,8 @@ export class ProductsController {
       return response.redirect('/products');
     }
     const viewData = [];
-    viewData['title'] = product.name + '- Online Store';
-    viewData['subtitle'] = product.name + '- Product Information';
+    viewData['title'] = product.getName() + '- Online Store';
+    viewData['subtitle'] = product.getName() + '- Product Information';
     viewData['product'] = product;
     return response.render('products/show', {
       viewData: viewData,

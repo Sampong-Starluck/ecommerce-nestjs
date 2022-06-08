@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Products {
+export default class Products {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,4 +16,44 @@ export class Products {
 
   @Column()
   price: number;
+
+  getId(): number {
+    return this.id;
+  }
+
+  setId(id: number) {
+    this.id = id;
+  }
+
+  getName(): string {
+    return this.name.toUpperCase();
+  }
+
+  setName(name: string) {
+    this.name = name;
+  }
+
+  getDescription(): string {
+    return this.description;
+  }
+
+  setDescription(description: string) {
+    this.description = description;
+  }
+
+  getImage(): string {
+    return this.image;
+  }
+
+  setImage(image: string) {
+    this.image = image;
+  }
+
+  getPrice(): number {
+    return this.price;
+  }
+
+  setPrice(price: number) {
+    this.price = price;
+  }
 }

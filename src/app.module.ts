@@ -8,7 +8,7 @@ import { env } from 'process';
 require('dotenv').config();
 // import { AppService } from './app.service';
 // import { ProductsModule } from './products.module';
-import { Products } from './products/products.entity';
+import Products from './products/products.entity';
 
 @Module({
   imports: [
