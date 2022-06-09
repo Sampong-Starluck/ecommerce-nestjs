@@ -5,6 +5,7 @@ https://docs.nestjs.com/controllers#controllers
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   Redirect,
@@ -15,6 +16,7 @@ import {
 import { ProductsService } from '../products/products.service';
 import Products from '../products/products.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Param } from '@nestjs/common';
 
 @Controller('/admin/products')
 export class AdminProductsController {
@@ -40,5 +42,11 @@ export class AdminProductsController {
     newProduct.setImage(file.filename);
 
     await this.productsService.createOrUpdate(newProduct);
+  }
+
+  @Post('/:id')
+  @Redirect('/admin/products')
+  remove(@Param('id') id: string) {
+    return this.productsService.remove(id);
   }
 }
