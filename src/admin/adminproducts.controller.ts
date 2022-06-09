@@ -2,8 +2,9 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Controller, Get, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Render } from '@nestjs/common';
 import { ProductsService } from '../products/products.service';
+import Products from '../products/products.entity';
 
 @Controller('/admin/products')
 export class AdminProductsController {
@@ -16,5 +17,17 @@ export class AdminProductsController {
     viewData['title'] = 'Admin Page - Admin - Online Store';
     viewData['products'] = await this.productsService.findAll();
     return { viewData: viewData };
+  }
+
+  @Post('/store')
+  @Render('admin/products')
+  async store(@Body() body) {
+    const newProduct = new Products();
+    newProduct.setName(body.name);
+    newProduct.setDescription(body.description);
+    newProduct.setPrice(body.price);
+    newProduct.setImage('game.png');
+
+    await this.productsService.createOrUpdate(newProduct);
   }
 }

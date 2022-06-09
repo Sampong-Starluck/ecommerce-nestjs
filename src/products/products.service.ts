@@ -16,6 +16,10 @@ export class ProductsService {
   }
 
   findOne(id?: string): Promise<Products> {
-    return this.productsRepository.findOneBy({ id: parseInt(id, 10) });
+    return this.productsRepository.findOneBy({ id: parseInt(id) });
+  }
+
+  createOrUpdate(product: Products): Promise<Products> {
+    return this.productsRepository.save(product);
   }
 }
