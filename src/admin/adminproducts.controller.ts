@@ -2,7 +2,7 @@
 https://docs.nestjs.com/controllers#controllers
 */
 
-import { Body, Controller, Get, Post, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Render } from '@nestjs/common';
 import { ProductsService } from '../products/products.service';
 import Products from '../products/products.entity';
 
@@ -20,7 +20,7 @@ export class AdminProductsController {
   }
 
   @Post('/store')
-  @Render('admin/products')
+  @Redirect('/admin/products')
   async store(@Body() body) {
     const newProduct = new Products();
     newProduct.setName(body.name);
