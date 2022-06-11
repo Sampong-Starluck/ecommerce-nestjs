@@ -1,3 +1,5 @@
+import { UserService } from './user/user.service';
+import { UserEntity } from './user/user.entity';
 import { AdminProductsController } from './admin/adminproducts.controller';
 import { AdminModule } from './admin/admin.module';
 import { ProductsService } from './products/products.service';
@@ -6,6 +8,7 @@ import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { env } from 'process';
+import { AuthModule } from './auth/auth.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 import Products from './products/products.entity';
@@ -24,14 +27,17 @@ import Products from './products/products.entity';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Products]),
+    TypeOrmModule.forFeature([Products, UserEntity]),
+    AdminModule,
+    AuthModule,
     // ProductsModule,
   ],
   controllers: [AdminProductsController, ProductsController, AppController],
   providers: [
+    UserService,
     // AppService
     ProductsService,
   ],
-  exports: [ProductsService],
+  exports: [ProductsService, UserService],
 })
 export class AppModule {}
