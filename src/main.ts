@@ -4,6 +4,10 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import * as hbs from 'hbs';
 import * as hbsUtil from 'hbs-utils';
+import * as session from 'express-session';
+import { env } from 'process';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
@@ -17,6 +21,18 @@ async function bootstrap() {
   hbsUtil(hbs).registerWatchedPartials(join(__dirname, '..', 'views/layouts'));
   app.setViewEngine('hbs');
   app.enableCors();
+
+  app.use(
+    session({
+      secret: env.SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use((req: any, res: any, next: () => void) => {
+    res.locals.session = req.session;
+    next();
+  });
 
   await app.listen(3000);
 }
