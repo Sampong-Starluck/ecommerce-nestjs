@@ -31,6 +31,11 @@ async function bootstrap() {
   );
   app.use((req: any, res: any, next: () => void) => {
     res.locals.session = req.session;
+    const flashErrors: string[] = req.session.flashErrors;
+    if (flashErrors) {
+      res.locals.flashErrors = flashErrors;
+      req.session.flashErrors = null;
+    }
     next();
   });
 
