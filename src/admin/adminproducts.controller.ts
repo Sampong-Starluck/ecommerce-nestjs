@@ -10,6 +10,7 @@ import {
   Redirect,
   Render,
   Req,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -89,19 +90,38 @@ export class AdminProductsController {
       dest: './public/uploads',
     }),
   )
-  @Redirect('/admin/products')
+  // @Redirect('/admin/products')
   async update(
     @Body() body,
     @UploadedFile() file: Express.Multer.File,
     @Param('id') id: string,
+    @Req() request,
+    @Res() response,
   ) {
-    const product = await this.productsService.findOne(id);
-    product.setName(body.name);
-    product.setDescription(body.description);
-    product.setPrice(body.price);
-    if (file) {
-      product.setImage(file.filename);
+    const toValidate: string[] = [
+      'name',
+      'description',
+      'price',
+      'imageUpdate',
+    ];
+    const errors: string[] = ProductsValidator.validate(body, file, toValidate);
+    if (errors.length > 0) {
+      if (file) {
+        fs.unlinkSync(file.path);
+      }
+      request.session.flashErrors = errors;
+      return response.redirect('/admin/products/' + id);
+    } else {
+      const product = await this.productsService.findOne(id);
+      product.setName(body.name);
+      product.setDescription(body.description);
+      product.setPrice(body.price);
+      if (file) {
+        product.setImage(file.filename);
+      }
+      await this.productsService.createOrUpdate(product);
+
+      return response.redirect('/admin/products/');
     }
-    await this.productsService.createOrUpdate(product);
   }
 }
