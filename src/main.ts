@@ -39,6 +39,23 @@ async function bootstrap() {
     next();
   });
 
+  app.use(
+    '/admin*',
+    (
+      req: { session: { user: { role: string } } },
+      res: { redirect: (arg0: string) => void },
+      next: () => void,
+    ) => {
+      if (req.session.user && req.session.user.role === 'admin') {
+        // if condition is TRUE do something
+        next();
+      } else {
+        // do something else
+        res.redirect('/');
+      }
+    },
+  );
+
   await app.listen(3000);
 }
 bootstrap();

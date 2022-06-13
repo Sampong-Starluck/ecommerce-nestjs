@@ -12,11 +12,12 @@ import { AuthModule } from './auth/auth.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 import Products from './products/products.entity';
+import { CartModule } from './cart/cart.module';
 
 @Global()
 @Module({
   imports: [
-    AdminModule,
+    // AdminModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: env.MYSQL_HOST,
@@ -30,6 +31,7 @@ import Products from './products/products.entity';
     TypeOrmModule.forFeature([Products, UserEntity]),
     AdminModule,
     AuthModule,
+    CartModule,
     // ProductsModule,
   ],
   controllers: [AdminProductsController, ProductsController, AppController],
